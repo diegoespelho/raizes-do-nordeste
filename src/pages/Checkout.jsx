@@ -1,34 +1,39 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCarrinho } from "../context/CarrinhoContext"; // 1. Importamos o hook
+import { useCarrinho } from "../context/CarrinhoContext";
+import toast from "react-hot-toast";
 import "./Carrinho.css";
 
 export default function Checkout() {
   const [aceitouLGPD, setAceitouLGPD] = useState(false);
   const navigate = useNavigate();
-
-  // 2. Extraímos a função de limpar o carrinho da nossa nuvem
   const { limparCarrinho } = useCarrinho();
 
   const simularPagamento = e => {
-    e.preventDefault(); // Evita que a página recarregue ao enviar o formulário
+    e.preventDefault();
 
+    // Validação da LGPD com Toast de Erro
     if (!aceitouLGPD) {
-      alert(
-        "Para continuar, você precisa aceitar os termos de privacidade (LGPD).",
-      );
+      toast.error("Você precisa aceitar os termos de privacidade (LGPD).");
       return;
     }
 
-    // Simulação visual de redirecionamento exigida no roteiro [cite: 91]
-    alert("Redirecionando para o ambiente seguro de pagamento...");
+    // Toast de "Loading" que segura a tela e avisa o usuário
+    const toastId = toast.loading(
+      "Processando pagamento em ambiente seguro...",
+    );
 
-    // Usamos o setTimeout para simular o tempo que o banco leva para aprovar a compra
+    // Simula o tempo de resposta do servidor do banco (2 segundos)
     setTimeout(() => {
-      alert("✅ Pagamento aprovado! Seu pedido foi enviado para a cozinha.");
-      limparCarrinho(); // 3. Esvazia o carrinho no estado global
-      navigate("/"); // 4. Redireciona o cliente de volta para o cardápio
-    }, 1500); // Aguarda 1,5 segundos antes de executar
+      // Atualiza o MESMO Toast para mostrar o sucesso
+      toast.success("Pagamento aprovado! Pedido enviado para a cozinha.", {
+        id: toastId,
+        duration: 3000,
+      });
+
+      limparCarrinho(); // Limpa o estado global e o localStorage
+      navigate("/"); // Volta para o início
+    }, 2000);
   };
 
   return (
@@ -57,7 +62,7 @@ export default function Checkout() {
               />
             </div>
 
-            {/* Quadro de LGPD - Obrigatório para os 15 pontos do roteiro [cite: 189, 191] */}
+            {/* Requisito Obrigatório: LGPD Explícita */}
             <div
               style={{
                 backgroundColor: "#fff3cd",
@@ -102,6 +107,7 @@ export default function Checkout() {
   );
 }
 
+// Estilo inline mantido apenas para os inputs ficarem alinhados
 const inputStyle = {
   width: "100%",
   padding: "12px",

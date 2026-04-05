@@ -1,7 +1,6 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// Importamos o Provider que acabamos de criar
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // <-- Essa é a linha que estava faltando!
+import { Toaster } from "react-hot-toast";
 import { CarrinhoProvider } from "./context/CarrinhoContext";
 
 import Header from "./components/Header";
@@ -11,9 +10,11 @@ import Checkout from "./pages/Checkout";
 
 export default function App() {
   return (
-    // Envolvemos toda a aplicação com o CarrinhoProvider
     <CarrinhoProvider>
       <BrowserRouter>
+        {/* O Toaster fica aqui no topo para capturar os avisos de qualquer página */}
+        <Toaster position="top-center" reverseOrder={false} />
+
         <Header />
         <Routes>
           <Route path="/" element={<Cardapio />} />

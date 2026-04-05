@@ -1,10 +1,9 @@
 import React from "react";
-// Importamos o nosso hook personalizado
 import { useCarrinho } from "../context/CarrinhoContext";
+import toast from "react-hot-toast"; // 1. Importamos a função toast
 import "./CardProduto.css";
 
 export default function CardProduto({ produto }) {
-  // Puxamos a função da nossa "nuvem"
   const { adicionarAoCarrinho } = useCarrinho();
 
   const formatarPreco = valor => {
@@ -14,10 +13,16 @@ export default function CardProduto({ produto }) {
     });
   };
 
-  // Função que será chamada ao clicar no botão
   const lidarComAdicao = () => {
     adicionarAoCarrinho(produto);
-    alert(`${produto.nome} foi adicionado ao carrinho!`); // Feedback simples pro usuário
+    // 2. Substituímos o alert por uma notificação de sucesso bonitinha!
+    toast.success(`${produto.nome} foi adicionado!`, {
+      style: {
+        borderRadius: "10px",
+        background: "#1D3557", // Usando o azul escuro do nosso layout
+        color: "#fff",
+      },
+    });
   };
 
   return (
@@ -31,7 +36,6 @@ export default function CardProduto({ produto }) {
         <p>{produto.descricao}</p>
         <span className="preco">{formatarPreco(produto.preco)}</span>
 
-        {/* Agora o botão chama a função real! */}
         <button onClick={lidarComAdicao}>Adicionar</button>
       </div>
     </div>

@@ -1,17 +1,27 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-// 1. Criamos o contexto
 const CarrinhoContext = createContext();
 
-// 2. Criamos o Provedor
 export function CarrinhoProvider({ children }) {
-  const [itensCarrinho, setItensCarrinho] = useState([]);
+  // 1. Inicializamos o estado lendo o localStorage (Lazy Initialization)
+  const [itensCarrinho, setItensCarrinho] = useState(() => {
+    const dadosSalvos = localStorage.getItem("raizes_nordeste_carrinho");
+    // Se tiver algo salvo, converte de texto (JSON) para array. Se não, inicia vazio [].
+    return dadosSalvos ? JSON.parse(dadosSalvos) : [];
+  });
+
+  // 2. Toda vez que 'itensCarrinho' for modificado, salvamos no localStorage
+  useEffect(() => {
+    localStorage.setItem(
+      "raizes_nordeste_carrinho",
+      JSON.stringify(itensCarrinho),
+    );
+  }, [itensCarrinho]);
 
   const adicionarAoCarrinho = produto => {
     setItensCarrinho(estadoAnterior => {
       const itemExistente = estadoAnterior.find(item => item.id === produto.id);
-
       if (itemExistente) {
         return estadoAnterior.map(item =>
           item.id === produto.id
@@ -24,16 +34,14 @@ export function CarrinhoProvider({ children }) {
     });
   };
 
-  const limparCarrinho = () => {
-    setItensCarrinho([]);
-  };
-
-  // --- NOVA FUNÇÃO AQUI ---
-  // Ela filtra a lista, mantendo todos os itens, EXCETO aquele com o ID que queremos remover
   const removerDoCarrinho = idProduto => {
     setItensCarrinho(estadoAnterior =>
       estadoAnterior.filter(item => item.id !== idProduto),
     );
+  };
+
+  const limparCarrinho = () => {
+    setItensCarrinho([]);
   };
 
   return (
@@ -49,7 +57,6 @@ export function CarrinhoProvider({ children }) {
   );
 }
 
-// 3. Criamos o Hook personalizado
 export function useCarrinho() {
   return useContext(CarrinhoContext);
 }
