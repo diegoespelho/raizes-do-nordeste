@@ -1,0 +1,93 @@
+.cabecalho-principal {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px); /* Efeito de vidro moderno */
+  box-shadow: var(--sombra-suave);
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.conteiner-cabecalho {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--cor-primaria);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-acoes {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.botao-fidelidade {
+  background: transparent;
+  border: 2px solid var(--cor-primaria);
+  color: var(--cor-primaria);
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicao-padrao);
+}
+
+.botao-fidelidade:hover {
+  background-color: var(--cor-primaria);
+  color: var(--cor-card);
+}
+
+.botao-carrinho {
+  background-color: var(--cor-texto-principal);
+  color: var(--cor-card);
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  transition: var(--transicao-padrao);
+  box-shadow: var(--sombra-suave);
+}
+
+.botao-carrinho:hover {
+  background-color: #0d1b2a;
+  transform: translateY(-2px);
+}
+
+.contador-badge {
+  background-color: var(--cor-primaria);
+  color: var(--cor-card);
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  font-weight: 800;
+  border: 2px solid var(--cor-card);
+}
+
+@media (max-width: 480px) {
+  .botao-fidelidade {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+  .botao-carrinho {
+    padding: 8px 16px;
+  }
+}

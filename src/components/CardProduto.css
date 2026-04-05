@@ -1,0 +1,77 @@
+.card-produto {
+  background-color: var(--cor-card);
+  border-radius: var(--raio-borda-lg);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transicao-padrao);
+  border: 1px solid var(--cor-borda);
+}
+
+.card-produto:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-hover);
+}
+
+.imagem-container {
+  overflow: hidden; /* Mantém a imagem dentro da borda ao dar zoom */
+  height: 220px;
+}
+
+.card-produto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card-produto:hover img {
+  transform: scale(1.08); /* Zoom sutil na foto */
+}
+
+.info-produto {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.info-produto h3 {
+  margin-bottom: 8px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.info-produto p {
+  font-size: 0.95rem;
+  color: var(--cor-texto-secundario);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.preco {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--cor-primaria);
+  margin-bottom: 15px;
+}
+
+.info-produto button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-card);
+  border: none;
+  padding: 14px;
+  border-radius: var(--raio-borda-md);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicao-padrao);
+  width: 100%;
+}
+
+.info-produto button:hover {
+  background-color: var(--cor-primaria-hover);
+  transform: scale(1.02);
+}
