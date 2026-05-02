@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #ea1d2c;
+  --bg-color: #f7f7f7;
+  --card-bg: #ffffff;
+  --text-main: #3e3e3e;
+  --text-muted: #717171;
+  --radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  padding-bottom: 90px;
+  -webkit-font-smoothing: antialiased;
+}
