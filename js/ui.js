@@ -42,7 +42,8 @@ function renderCartItems() {
 
   if (itemsArray.length === 0) {
     container.innerHTML =
-      '<p style="text-align:center; color:var(--text-muted); padding: 20px 0;">Carrinho vazio.</p>';
+      '<p style="text-align:center; color:var(--text-muted); padding: 20px 0;">Seu carrinho está vazio.</p>';
+    if (window.updateModalTotals) window.updateModalTotals();
     return;
   }
 
@@ -50,11 +51,21 @@ function renderCartItems() {
     const row = document.createElement("div");
     row.className = "cart-item-row";
     row.innerHTML = `
-            <div style="flex:1;"><strong>${item.quantity}x</strong> ${item.name}</div>
-            <div style="font-weight: 600;">${formatCurrency(item.price * item.quantity)}</div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-actions">
+                <span class="cart-item-price">${formatCurrency(item.price * item.quantity)}</span>
+                <div class="cart-item-controls">
+                    <button class="qty-btn" onclick="changeItemQuantity(${item.id}, -1)">-</button>
+                    <span class="qty-display">${item.quantity}</span>
+                    <button class="qty-btn" onclick="changeItemQuantity(${item.id}, 1)">+</button>
+                    <button class="remove-btn" onclick="removeItemFromCart(${item.id})" title="Remover item">🗑️</button>
+                </div>
+            </div>
         `;
     container.appendChild(row);
   });
+
+  if (window.updateModalTotals) window.updateModalTotals();
 }
 
 function hideLGPDBanner() {

@@ -1,15 +1,9 @@
-let cart = {
-  items: {},
-  total: 0,
-};
-
+let cart = { items: {}, total: 0 };
 let userPoints = 120;
 
 function loadCart() {
   const savedCart = localStorage.getItem("raizes_cart");
-  if (savedCart) {
-    cart = JSON.parse(savedCart);
-  }
+  if (savedCart) cart = JSON.parse(savedCart);
 }
 
 function saveCart() {
@@ -32,6 +26,29 @@ function addItemToCart(productId, name, price) {
   updateCartUI(cart.total);
 }
 
+function changeItemQuantity(productId, delta) {
+  if (cart.items[productId]) {
+    cart.items[productId].quantity += delta;
+    cart.total += cart.items[productId].price * delta;
+    if (cart.items[productId].quantity <= 0) delete cart.items[productId];
+    cart.total = Math.max(0, Math.round(cart.total * 100) / 100);
+    saveCart();
+    updateCartUI(cart.total);
+    renderCartItems();
+  }
+}
+
+function removeItemFromCart(productId) {
+  if (cart.items[productId]) {
+    cart.total -= cart.items[productId].price * cart.items[productId].quantity;
+    delete cart.items[productId];
+    cart.total = Math.max(0, Math.round(cart.total * 100) / 100);
+    saveCart();
+    updateCartUI(cart.total);
+    renderCartItems();
+  }
+}
+
 function clearCart() {
   cart = { items: {}, total: 0 };
   saveCart();
@@ -40,9 +57,7 @@ function clearCart() {
 
 function loadPoints() {
   const savedPoints = localStorage.getItem("raizes_points");
-  if (savedPoints !== null) {
-    userPoints = parseInt(savedPoints);
-  }
+  if (savedPoints !== null) userPoints = parseInt(savedPoints);
 }
 
 function savePoints() {

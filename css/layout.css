@@ -1,3 +1,54 @@
+/* --- Estilos do Hero / Landing Page --- */
+.hero-section {
+  display: none; /* Controlado via JS */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(234, 29, 44, 0.8)),
+    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200")
+      center/cover;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+.hero-icon {
+  margin-bottom: 20px;
+}
+.hero-content h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.hero-content p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.btn-large {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(234, 29, 44, 0.4);
+}
+.btn-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 29, 44, 0.6);
+}
+
+/* --- Estrutura do App --- */
+#app-container {
+  padding-bottom: 90px;
+} /* Espaço para o carrinho apenas quando o app está aberto */
+
 .app-header {
   background-color: var(--card-bg);
   padding: 15px 20px;
