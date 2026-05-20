@@ -1,6 +1,9 @@
 window.orderPointsUsed = 0;
 window.orderFinalTotal = 0;
+window.currentUser = null; // Armazena dados do usuário logado
+window.currentUnit = null; // Armazena a unidade selecionada
 
+// Utilitário global
 window.updateModalTotals = function () {
   const subtotalEl = document.getElementById("modal-subtotal");
   const discountEl = document.getElementById("modal-discount-value");
@@ -8,7 +11,6 @@ window.updateModalTotals = function () {
   const btnContinue = document.getElementById("btn-continue-checkout");
 
   if (!subtotalEl) return;
-
   subtotalEl.innerText = formatCurrency(cart.total);
 
   let blocosDesconto = Math.floor(userPoints / 100);
@@ -35,13 +37,63 @@ window.updateModalTotals = function () {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (typeof mockMenu !== "undefined") renderMenu(mockMenu);
+  // --- AUTENTICAÇÃO E SESSÃO ---
+  function checkAuthStatus() {
+    const savedUser = localStorage.getItem("raizes_user");
+    const btnLogin = document.getElementById("btn-login");
+    const btnFidelity = document.getElementById("btn-fidelity");
+
+    if (savedUser) {
+      window.currentUser = JSON.parse(savedUser);
+      btnLogin.innerText = `Olá, ${window.currentUser.name.split(" ")[0]}`;
+      btnFidelity.style.display = "flex"; // Mostra fidelidade
+
+      // Preenche o nome no checkout automaticamente
+      const clientNameInput = document.getElementById("client-name");
+      if (clientNameInput) clientNameInput.value = window.currentUser.name;
+
+      const fidelityGreeting = document.getElementById(
+        "fidelity-user-greeting",
+      );
+      if (fidelityGreeting)
+        fidelityGreeting.innerText = `Olá, ${window.currentUser.name}!`;
+    } else {
+      btnLogin.innerText = "Entrar";
+      btnFidelity.style.display = "none";
+    }
+  }
+
+  // Modal de Login
+  const loginModal = document.getElementById("login-modal");
+  document.getElementById("btn-login").addEventListener("click", () => {
+    if (!window.currentUser) loginModal.style.display = "flex";
+    // Se já estiver logado, poderia abrir um menu de perfil.
+  });
+
+  document
+    .getElementById("close-login")
+    .addEventListener("click", () => (loginModal.style.display = "none"));
+
+  document.getElementById("btn-auth-submit").addEventListener("click", () => {
+    const name = document.getElementById("auth-name").value;
+    const phone = document.getElementById("auth-phone").value;
+    if (name.length > 2) {
+      const userData = { name: name, phone: phone };
+      localStorage.setItem("raizes_user", JSON.stringify(userData));
+      checkAuthStatus();
+      loginModal.style.display = "none";
+    } else {
+      alert("Por favor, insira um nome válido.");
+    }
+  });
+
+  // Inicialização
+  checkAuthStatus();
   loadCart();
   updateCartUI(cart.total);
   loadPoints();
   updatePointsUI(userPoints);
 
-  // LGPD Global Interactions
   const btnLGPD = document.getElementById("accept-lgpd");
   if (btnLGPD) btnLGPD.addEventListener("click", hideLGPDBanner);
 
@@ -53,7 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Category Filter
+  // --- FILTRAGEM POR UNIDADE (CARDÁPIO DINÂMICO) ---
+  function getMenuForCurrentUnit() {
+    if (!window.currentUnit) return mockMenu;
+    return mockMenu.filter(
+      item => item.unit === "todas" || item.unit === window.currentUnit,
+    );
+  }
+
+  // Category Filter (Aplica o filtro da categoria EM CIMA do filtro da unidade)
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach(btn => {
     btn.addEventListener("click", e => {
@@ -61,33 +121,33 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.classList.add("active");
 
       const category = e.target.getAttribute("data-category");
+      let unitMenu = getMenuForCurrentUnit();
+
       if (category === "todos") {
-        renderMenu(mockMenu);
+        renderMenu(unitMenu);
+      } else if (category === "promocoes") {
+        // NOVO: Filtra apenas os itens com promo: true
+        const filtered = unitMenu.filter(item => item.promo === true);
+        renderMenu(filtered);
       } else {
-        const filtered = mockMenu.filter(item => item.category === category);
+        const filtered = unitMenu.filter(item => item.category === category);
         renderMenu(filtered);
       }
     });
   });
 
-  // --- SISTEMA DE NAVEGAÇÃO SPA (ATUALIZADO) ---
+  // --- NAVEGAÇÃO SPA ---
   const viewHero = document.getElementById("view-hero");
   const appContainer = document.getElementById("app-container");
   const viewMenu = document.getElementById("view-menu");
   const viewFidelity = document.getElementById("view-fidelity");
   const viewLgpd = document.getElementById("view-lgpd");
-
   const btnBack = document.getElementById("btn-back");
-  const btnHome = document.getElementById("btn-home");
-  const btnFidelity = document.getElementById("btn-fidelity");
-  const btnStartApp = document.getElementById("btn-start-app");
 
-  // Estado inicial: Mostra Hero e esconde App
   viewHero.style.display = "flex";
   appContainer.style.display = "none";
 
   function switchView(viewName) {
-    // Esconde tudo primeiro
     viewHero.style.display = "none";
     viewMenu.style.display = "none";
     viewFidelity.style.display = "none";
@@ -97,9 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       viewHero.style.display = "flex";
       appContainer.style.display = "none";
     } else {
-      // Se não for hero, garante que o app-container está visível
       appContainer.style.display = "block";
-
       if (viewName === "menu") {
         viewMenu.style.display = "block";
         btnBack.style.display = "none";
@@ -113,22 +171,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Eventos de Navegação
-  btnStartApp.addEventListener("click", () => switchView("menu"));
-  btnFidelity.addEventListener("click", () => switchView("fidelity"));
-  btnHome.addEventListener("click", () => switchView("menu")); // Clique no logo vai pro cardápio
-  btnBack.addEventListener("click", () => switchView("menu")); // Voltar vai pro cardápio
+  // INICIAR APP E CAPTURAR UNIDADE
+  document.getElementById("btn-start-app").addEventListener("click", () => {
+    const unitSelector = document.getElementById("unit-select");
+    if (!unitSelector.value) {
+      alert(
+        "Por favor, selecione a unidade desejada para ver o cardápio correto.",
+      );
+      return;
+    }
 
-  // --- CONTROLE DE MODAIS ---
+    window.currentUnit = unitSelector.value;
+    const unitName = unitSelector.options[unitSelector.selectedIndex].text;
+    document.getElementById("header-unit-display").innerText = unitName;
+
+    // Puxa o cardápio daquela unidade específica
+    renderMenu(getMenuForCurrentUnit());
+
+    // Se não estiver logado, obriga a logar para iniciar
+    if (!window.currentUser) {
+      loginModal.style.display = "flex";
+    } else {
+      switchView("menu");
+    }
+  });
+
+  // Libera a tela quando o usuário faz login pela primeira vez no modal obrigatório
+  document.getElementById("btn-auth-submit").addEventListener("click", () => {
+    if (window.currentUnit && window.currentUser) {
+      switchView("menu");
+    }
+  });
+
+  document
+    .getElementById("btn-fidelity")
+    .addEventListener("click", () => switchView("fidelity"));
+  document
+    .getElementById("btn-home")
+    .addEventListener("click", () => switchView("hero"));
+  btnBack.addEventListener("click", () => switchView("menu"));
+
+  // --- MODAIS DO CARRINHO E CHECKOUT ---
   const cartBtn = document.getElementById("cart-button");
   const cartModal = document.getElementById("cart-modal");
   const checkoutModal = document.getElementById("checkout-modal");
   const trackingModal = document.getElementById("tracking-modal");
-
-  const btnContinueCheckout = document.getElementById("btn-continue-checkout");
-  const btnFinalizeOrder = document.getElementById("btn-finalize-order");
-  const btnNewOrder = document.getElementById("btn-new-order");
-  const statusText = document.getElementById("payment-status");
 
   document
     .getElementById("close-cart")
@@ -142,51 +229,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (cartBtn) {
     cartBtn.addEventListener("click", () => {
+      if (!window.currentUser) {
+        alert("Faça login para gerenciar seu carrinho.");
+        loginModal.style.display = "flex";
+        return;
+      }
       renderCartItems();
       cartModal.style.display = "flex";
     });
   }
 
-  btnContinueCheckout.addEventListener("click", () => {
-    cartModal.style.display = "none";
-    checkoutModal.style.display = "flex";
-  });
+  document
+    .getElementById("btn-continue-checkout")
+    .addEventListener("click", () => {
+      cartModal.style.display = "none";
+      checkoutModal.style.display = "flex";
+    });
+
+  const btnFinalizeOrder = document.getElementById("btn-finalize-order");
+  const statusText = document.getElementById("payment-status");
 
   btnFinalizeOrder.addEventListener("click", async () => {
-    const name = document.getElementById("client-name").value;
     const address = document.getElementById("client-address").value;
-
-    if (!name || !address) {
-      alert("Por favor, preencha nome e endereço.");
+    if (!address) {
+      alert("Por favor, preencha o endereço.");
       return;
     }
 
     btnFinalizeOrder.disabled = true;
-    btnFinalizeOrder.innerText = "Processando Pagamento...";
-    statusText.innerText = "Conectando ao sistema...";
+    btnFinalizeOrder.innerText = "Processando...";
+    statusText.innerText = "Conectando ao banco...";
 
     try {
       const response = await processExternalPayment();
-
       if (response.status === "success") {
         if (window.orderPointsUsed > 0) deductPoints(window.orderPointsUsed);
         const pontosAdquiridos = addPoints(window.orderFinalTotal);
         updatePointsUI(userPoints);
 
         statusText.style.color = "#28a745";
-        let feedbackMsg = "Pagamento Aprovado!";
-        if (window.orderPointsUsed > 0) feedbackMsg += ` Desconto aplicado.`;
-        feedbackMsg += ` Ganhou +${pontosAdquiridos} pts.`;
-        statusText.innerText = feedbackMsg;
+        statusText.innerText = `Pagamento Aprovado! Desconto aplicado. Ganhou +${pontosAdquiridos} pts.`;
 
         setTimeout(() => {
           checkoutModal.style.display = "none";
           btnFinalizeOrder.disabled = false;
           btnFinalizeOrder.innerText = "Finalizar Pedido";
           statusText.innerText = "";
-          document.getElementById("client-name").value = "";
           document.getElementById("client-address").value = "";
-
           startOrderTracking(response.transactionId);
         }, 2500);
       }
@@ -203,24 +292,22 @@ document.addEventListener("DOMContentLoaded", () => {
       "PIX-",
       "",
     );
-    btnNewOrder.style.display = "none";
+    document.getElementById("btn-new-order").style.display = "none";
 
     let currentStep = 0;
     updateTrackingUI(currentStep);
-
     const trackingInterval = setInterval(() => {
       currentStep++;
       updateTrackingUI(currentStep);
-
       if (currentStep >= 4) {
         clearInterval(trackingInterval);
-        btnNewOrder.style.display = "block";
+        document.getElementById("btn-new-order").style.display = "block";
         clearCart();
       }
     }, 3000);
   }
 
-  btnNewOrder.addEventListener("click", () => {
+  document.getElementById("btn-new-order").addEventListener("click", () => {
     trackingModal.style.display = "none";
     switchView("menu");
   });

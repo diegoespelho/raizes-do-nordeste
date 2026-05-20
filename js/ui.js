@@ -4,15 +4,24 @@ function renderMenu(menuData) {
 
   if (menuData.length === 0) {
     productList.innerHTML =
-      '<p style="text-align:center; color:var(--text-muted); grid-column: 1/-1;">Nenhum produto nesta categoria.</p>';
+      '<p style="text-align:center; color:var(--text-muted); grid-column: 1/-1;">Nenhum produto encontrado.</p>';
     return;
   }
 
   menuData.forEach(product => {
     const card = document.createElement("div");
     card.className = "product-card";
+
+    // NOVO: Verifica se é promoção para criar o selo
+    const promoBadge = product.promo
+      ? `<span class="promo-badge">Oferta</span>`
+      : "";
+
     card.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/80?text=Sem+Foto';">
+            <div style="position: relative;">
+                ${promoBadge}
+                <img src="${product.image}" alt="${product.name}" class="product-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/80?text=Sem+Foto';">
+            </div>
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>

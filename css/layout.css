@@ -1,53 +1,55 @@
-/* --- Estilos do Hero / Landing Page --- */
 .hero-section {
-  display: none; /* Controlado via JS */
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(234, 29, 44, 0.8)),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(240, 70, 20, 0.5)),
     url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200")
       center/cover;
   color: white;
   text-align: center;
   padding: 20px;
-  animation: fadeIn 0.5s ease-in;
+  animation: fadeIn 500ms ease-in;
 }
 
 .hero-content {
   max-width: 600px;
 }
+
 .hero-icon {
   margin-bottom: 20px;
 }
+
 .hero-content h1 {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 10px;
+  text-transform: uppercase;
 }
+
 .hero-content p {
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   line-height: 1.5;
   margin-bottom: 30px;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .btn-large {
   padding: 15px 30px;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(234, 29, 44, 0.4);
-}
-.btn-large:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(234, 29, 44, 0.6);
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Estrutura do App --- */
+.btn-large:hover {
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+}
+
 #app-container {
   padding-bottom: 90px;
-} /* Espaço para o carrinho apenas quando o app está aberto */
+}
 
 .app-header {
   background-color: var(--card-bg);
@@ -60,25 +62,37 @@
   top: 0;
   z-index: 100;
 }
+
 .app-header h1 {
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 0;
 }
+
+.logo-title {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .menu-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
+
 .categories {
   display: flex;
   gap: 10px;
   overflow-x: auto;
   padding-bottom: 10px;
 }
+
 .categories::-webkit-scrollbar {
   display: none;
 }
+
 .product-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -91,6 +105,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (min-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -104,16 +119,16 @@
   display: none;
   animation: fadeIn 0.3s ease-in;
 }
+
 .view-section.active {
   display: block;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
