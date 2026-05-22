@@ -1,7 +1,7 @@
 window.orderPointsUsed = 0;
 window.orderFinalTotal = 0;
-window.currentUser = null; // Armazena dados do usuário logado
-window.currentUnit = null; // Armazena a unidade selecionada
+window.currentUser = null;
+window.currentUnit = null;
 
 // Utilitário global
 window.updateModalTotals = function () {

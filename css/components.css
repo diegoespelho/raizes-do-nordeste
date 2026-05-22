@@ -165,25 +165,28 @@
   gap: 15px;
   align-items: flex-start;
   padding: 20px;
-  background: #fff8f8;
-  border: 1px solid #ffebeb;
+  background: #ee441110;
+  border: 1px solid #ee441150;
   border-radius: var(--radius);
   margin-top: 15px;
 }
 
 .reward-icon {
-  flex-shrink: 0;
-  background: white;
-  padding: 10px;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(234, 29, 44, 0.1);
+  align-self: center;
+}
+
+.reward-text span {
+  display: block;
+  color: var(--title-main);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
 .reward-text strong {
   display: block;
   font-size: 1.05rem;
   color: var(--primary-color);
-  margin-bottom: 5px;
 }
 
 .reward-text p {
@@ -215,7 +218,6 @@
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
   width: 90%;
   max-width: 400px;
   background-color: var(--primary-color);
@@ -228,10 +230,14 @@
   align-items: center;
   font-size: 1rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(234, 29, 44, 0.4);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   z-index: 900;
-  transition: transform 0.1s ease-in-out;
+}
+
+.floating-cart:hover {
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+  transition: all 200ms ease-in-out;
 }
 
 .modal-overlay {
@@ -289,7 +295,6 @@
 }
 
 .modal-header h2 {
-  text-transform: uppercase;
   color: var(--title-main);
 }
 

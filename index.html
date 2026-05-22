@@ -24,7 +24,7 @@
 
     <div id="view-hero" class="hero-section active">
       <div class="hero-content">
-        <img src="assets/img/hot-meal.svg" />
+        <img src="assets/icons/hot-meal.svg" />
         <h1>Raízes do Nordeste</h1>
         <p>
           O autêntico sabor da nossa terra, agora na palma da sua mão com
@@ -49,11 +49,11 @@
     <div id="app-container" style="display: none">
       <header class="app-header">
         <button id="btn-back" class="back-btn" style="display: none">
-          <img src="assets/img/arrow-left.svg" width="40px" />
+          <img src="assets/icons/arrow-left.svg" width="40px" />
         </button>
 
         <div id="btn-home" class="logo-title">
-          <img src="assets/img/hot-meal-title.svg" width="50px" />
+          <img src="assets/icons/hot-meal-title.svg" width="50px" />
           <div class="header-titles">
             <h1>Raízes do Nordeste</h1>
             <span id="header-unit-display" class="unit-badge">
@@ -110,27 +110,13 @@
           <div class="fidelity-card">
             <h3 id="fidelity-user-greeting">Olá, Cliente!</h3>
             <h3>Saldo Atual: <span class="points-highlight">0 Pontos</span></h3>
-            <p style="margin-bottom: 20px">
-              A cada R$ 1,00 em compras, você acumula 1 ponto.
-            </p>
+            <p>A cada R$ 1,00 em compras, você acumula 1 ponto.</p>
             <div class="reward-rule-box">
               <div class="reward-icon">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--primary-color)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23"></line>
-                  <path
-                    d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
+                <img src="assets/icons/dollar.svg" />
               </div>
               <div class="reward-text">
-                <strong>Desconto Automático</strong>
+                <span>Desconto Automático</span>
                 <p>
                   A cada <strong>100 pontos</strong> acumulados, você recebe
                   <strong>R$ 5,00 de desconto</strong> direto no seu carrinho.
@@ -149,20 +135,22 @@
             <h3>1. Quais dados coletamos e para que servem?</h3>
             <p>
               Coletamos apenas as informações necessárias para entregar a melhor
-              experiência e os nossos pratos até você. - Nome completo: Para
-              identificar você no momento da entrega ou na reserva de mesas. -
-              Telefone de contato: Para confirmar o seu pedido ou avisar sobre o
-              status do motoboy. - Endereço residencial: Para que a nossa equipe
-              de delivery encontre a sua casa de forma rápida.
+              experiência e os nossos pratos até você.
+              <br />- Nome completo: Para identificar você no momento da entrega
+              ou na reserva de mesas. <br />- Telefone de contato: Para
+              confirmar o seu pedido ou avisar sobre o status do motoboy.
+              <br />- Endereço residencial: Para que a nossa equipe de delivery
+              encontre a sua casa de forma rápida.
             </p>
 
             <h3>2. Compartilhamento de dados com terceiros</h3>
             <p>
               Nós não vendemos os seus dados pessoais. Nós compartilhamos as
-              suas informações apenas com: - Empresas de logística: Motoboys e
-              plataformas de entrega parceiras que levam o pedido até o seu
-              endereço. - Sistemas de pagamento: Plataformas seguras que
-              processam cartões ou Pix (não guardamos seus dados bancários).
+              suas informações apenas com:
+              <br />- Empresas de logística: Motoboys e plataformas de entrega
+              parceiras que levam o pedido até o seu endereço. <br />- Sistemas
+              de pagamento: Plataformas seguras que processam cartões ou Pix
+              (não guardamos seus dados bancários).
             </p>
 
             <h3>3. Uso de Cookies e rastreamento</h3>
@@ -185,8 +173,9 @@
             <p>
               A LGPD garante que você tem total controle sobre as suas
               informações. Você pode entrar em contato conosco a qualquer
-              momento para: - Confirmar se temos os seus dados salvos. -
-              Corrigir um telefone ou endereço que esteja desatualizado. -
+              momento para:
+              <br />- Confirmar se temos os seus dados salvos. <br />- Corrigir
+              um telefone ou endereço que esteja desatualizado. <br />-
               Solicitar a exclusão definitiva do seu cadastro do nosso banco de
               dados.
             </p>
@@ -248,16 +237,16 @@
             <span>Subtotal</span><span id="modal-subtotal">R$ 0,00</span>
           </div>
           <div class="summary-line fidelity-discount">
-            <span>Desconto Fidelidade Utilizado</span
+            <span>Desconto fidelidade utilizado</span
             ><span id="modal-discount-value">- R$ 0,00</span>
           </div>
           <div class="summary-line total">
-            <span>Total a Pagar</span><span id="modal-total">R$ 0,00</span>
+            <span>Total à Pagar</span><span id="modal-total">R$ 0,00</span>
           </div>
         </div>
         <button
           id="btn-continue-checkout"
-          class="btn-primary full-width"
+          class="btn-primary btn-large full-width"
           type="button">
           Continuar para Entrega
         </button>
@@ -267,7 +256,7 @@
     <div id="checkout-modal" class="modal-overlay" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Dados e Entrega</h2>
+          <h2>Entrega e Pagamento</h2>
           <button id="close-checkout" class="close-btn">&times;</button>
         </div>
         <div class="checkout-form">
@@ -280,7 +269,7 @@
               style="background: #f0f0f0" />
           </div>
           <div class="form-group">
-            <label>Endereço de Entrega (ou 'Totem/Balcão')</label
+            <label>Endereço de Entrega</label
             ><input
               type="text"
               id="client-address"
@@ -297,7 +286,7 @@
         </div>
         <button
           id="btn-finalize-order"
-          class="btn-primary full-width"
+          class="btn-primary btn-large full-width"
           type="button">
           Finalizar Pedido
         </button>
@@ -340,7 +329,7 @@
         </div>
         <button
           id="btn-new-order"
-          class="btn-primary full-width"
+          class="btn-primary btn-large full-width"
           type="button"
           style="display: none; margin-top: 20px">
           Fazer Novo Pedido
