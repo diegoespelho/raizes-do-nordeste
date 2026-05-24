@@ -1,8 +1,12 @@
+// MAIN.JS - Controlador Central, Gestão de Eventos do DOM e Roteamento
+
+// Variáveis globais que controlam os dados financeiros e estados de sessão do utilizador
 window.orderPointsUsed = 0;
 window.orderFinalTotal = 0;
 window.currentUser = null;
 window.currentUnit = null;
 
+// Lógica de cálculo dos totais do carrinho e descontos automáticos
 window.updateModalTotals = function () {
   const subtotalEl = document.getElementById("modal-subtotal");
   const discountEl = document.getElementById("modal-discount-value");
@@ -12,20 +16,24 @@ window.updateModalTotals = function () {
   if (!subtotalEl) return;
   subtotalEl.innerText = formatCurrency(cart.total);
 
+  // A cada bloco de 100 pontos acumulados, aplica R$ 5,00 de desconto
   let blocosDesconto = Math.floor(userPoints / 100);
   let valorDesconto = blocosDesconto * 5.0;
 
+  // Garante que o desconto nunca ultrapasse o valor total do carrinho
   if (valorDesconto > cart.total) {
     valorDesconto = cart.total;
     blocosDesconto = Math.ceil(valorDesconto / 5.0);
   }
 
+  // Guarda as definições calculadas nas variáveis de sessão para envio ao banco de dados
   window.orderPointsUsed = blocosDesconto * 100;
   window.orderFinalTotal = cart.total - valorDesconto;
 
   discountEl.innerText = `- ${formatCurrency(valorDesconto)}`;
   totalEl.innerText = formatCurrency(window.orderFinalTotal);
 
+  // Desativa os botões de avanço caso o carrinho de compras fique totalmente vazio
   if (cart.total === 0) {
     btnContinue.disabled = true;
     btnContinue.style.opacity = "0.5";
@@ -35,7 +43,9 @@ window.updateModalTotals = function () {
   }
 };
 
+// Vinculação de escuta de eventos após o carregamento completo do documento HTML
 document.addEventListener("DOMContentLoaded", () => {
+  // Autenticação e Sessão
   function checkAuthStatus() {
     const savedUser = localStorage.getItem("raizes_user");
     const btnLogin = document.getElementById("btn-login");
@@ -44,9 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (savedUser) {
       window.currentUser = JSON.parse(savedUser);
       btnLogin.innerText = `Olá, ${window.currentUser.name.split(" ")[0]}`;
-      btnFidelity.style.display = "flex"; // Mostra fidelidade
+      btnFidelity.style.display = "flex";
 
-      // Preenche o nome no checkout automaticamente
+      // Preenche dados cadastrais nos campos de faturação automaticamente
       const clientNameInput = document.getElementById("client-name");
       if (clientNameInput) clientNameInput.value = window.currentUser.name;
 
@@ -61,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Modal de login
   const loginModal = document.getElementById("login-modal");
   document.getElementById("btn-login").addEventListener("click", () => {
     if (!window.currentUser) loginModal.style.display = "flex";
@@ -83,12 +94,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Execuções de carregamento estrutural inicial
   checkAuthStatus();
   loadCart();
   updateCartUI(cart.total);
   loadPoints();
   updatePointsUI(userPoints);
 
+  // Escutas de fechamento e redirecionamento do banner LGPD
   const btnLGPD = document.getElementById("accept-lgpd");
   if (btnLGPD) btnLGPD.addEventListener("click", hideLGPDBanner);
 
@@ -100,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // --- Filtro de Cardápio
   function getMenuForCurrentUnit() {
     if (!window.currentUnit) return mockMenu;
     return mockMenu.filter(
@@ -107,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  // Liga os botões de navegação por categorias aos filtros do banco de dados
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach(btn => {
     btn.addEventListener("click", e => {
@@ -128,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Roteamento Interno
   const viewHero = document.getElementById("view-hero");
   const appContainer = document.getElementById("app-container");
   const viewMenu = document.getElementById("view-menu");
@@ -162,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Ativação da aplicação após seleção de uma unidade de atendimento
   document.getElementById("btn-start-app").addEventListener("click", () => {
     const unitSelector = document.getElementById("unit-select");
     if (!unitSelector.value) {
@@ -177,6 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderMenu(getMenuForCurrentUnit());
 
+    // Barreira de autenticação forçada para novos acessos
     if (!window.currentUser) {
       loginModal.style.display = "flex";
     } else {
@@ -184,12 +202,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Redirecionamentos adicionais após autenticação completa de dados
   document.getElementById("btn-auth-submit").addEventListener("click", () => {
     if (window.currentUnit && window.currentUser) {
       switchView("menu");
     }
   });
 
+  // Eventos de clique para navegação entre telas internas
   document
     .getElementById("btn-fidelity")
     .addEventListener("click", () => switchView("fidelity"));
@@ -198,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", () => switchView("hero"));
   btnBack.addEventListener("click", () => switchView("menu"));
 
+  // Controle dos Modais e Checkout
   const cartBtn = document.getElementById("cart-button");
   const cartModal = document.getElementById("cart-modal");
   const checkoutModal = document.getElementById("checkout-modal");
@@ -235,6 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnFinalizeOrder = document.getElementById("btn-finalize-order");
   const statusText = document.getElementById("payment-status");
 
+  // Envio de dados cadastrais e solicitação assíncrona ao gateway simulado de pagamento
   btnFinalizeOrder.addEventListener("click", async () => {
     const address = document.getElementById("client-address").value;
     if (!address) {
@@ -242,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Bloqueia interações
     btnFinalizeOrder.disabled = true;
     btnFinalizeOrder.innerText = "Processando...";
     statusText.innerText = "Conectando ao banco...";
@@ -249,13 +272,17 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await processExternalPayment();
       if (response.status === "success") {
+        // Aplicação e queima de saldo de fidelidade se houver desconto consumido
         if (window.orderPointsUsed > 0) deductPoints(window.orderPointsUsed);
+
+        // Lógica de ganho de novos pontos calculados sobre o valor pago
         const pontosAdquiridos = addPoints(window.orderFinalTotal);
         updatePointsUI(userPoints);
 
         statusText.style.color = "#28a745";
         statusText.innerText = `Pagamento Aprovado! Desconto aplicado. Ganhou +${pontosAdquiridos} pts.`;
 
+        // Libera a tela de acompanhamento após intervalo de leitura do feedback de sucesso
         setTimeout(() => {
           checkoutModal.style.display = "none";
           btnFinalizeOrder.disabled = false;
@@ -272,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Tracking de Atualização
   function startOrderTracking(orderId) {
     trackingModal.style.display = "flex";
     document.getElementById("order-id-display").innerText = orderId.replace(
@@ -282,9 +310,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentStep = 0;
     updateTrackingUI(currentStep);
+
+    // Simulação dos estados de atualização do pedido
     const trackingInterval = setInterval(() => {
       currentStep++;
       updateTrackingUI(currentStep);
+
       if (currentStep >= 4) {
         clearInterval(trackingInterval);
         document.getElementById("btn-new-order").style.display = "block";

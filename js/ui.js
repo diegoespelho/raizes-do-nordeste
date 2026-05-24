@@ -1,17 +1,23 @@
+// UI.JS - Manipulação do DOM, Renderização Dinâmica e Injeção de HTML
+
+// Renderiza a grade de produtos na vitrine principal com base nos filtros ativos
 function renderMenu(menuData) {
   const productList = document.getElementById("product-list");
   productList.innerHTML = "";
 
+  // Apresenta mensagem amigável caso nenhum item corresponda aos filtros da unidade/categoria
   if (menuData.length === 0) {
     productList.innerHTML =
       '<p style="text-align:center; color:var(--text-muted); grid-column: 1/-1;">Nenhum produto encontrado.</p>';
     return;
   }
 
+  // Percorre o array de dados gerando os cartões de produto dinamicamente
   menuData.forEach(product => {
     const card = document.createElement("div");
     card.className = "product-card";
 
+    // Injeta o selo de oferta caso a propriedade promocional seja verdadeira
     const promoBadge = product.promo
       ? `<span class="promo-badge">Oferta</span>`
       : "";
@@ -34,20 +40,25 @@ function renderMenu(menuData) {
   });
 }
 
+// Atualiza o valor monetário do botão flutuante e aplica efeito de pulso visual
 function updateCartUI(newTotal) {
   document.getElementById("cart-total").innerText = formatCurrency(newTotal);
   const cartBtn = document.getElementById("cart-button");
+
+  // Aplica uma escala para feedback tátil
   cartBtn.style.transform = "translateX(-50%) scale(1.05)";
   setTimeout(() => {
     cartBtn.style.transform = "translateX(-50%) scale(1)";
   }, 150);
 }
 
+// Constrói e injeta as linhas dos itens selecionados dentro do modal do carrinho
 function renderCartItems() {
   const container = document.getElementById("cart-items-container");
   container.innerHTML = "";
   const itemsArray = Object.values(cart.items);
 
+  // Se o carrinho for esvaziado por remoções manuais dentro do modal
   if (itemsArray.length === 0) {
     container.innerHTML =
       '<p style="text-align:center; color:var(--text-muted); padding: 20px 0;">Seu carrinho está vazio.</p>';
@@ -55,6 +66,7 @@ function renderCartItems() {
     return;
   }
 
+  // Gera a estrutura HTML de cada linha de produto adicionado
   itemsArray.forEach(item => {
     const row = document.createElement("div");
     row.className = "cart-item-row";
@@ -62,6 +74,8 @@ function renderCartItems() {
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-actions">
                 <span class="cart-item-price">${formatCurrency(item.price * item.quantity)}</span>
+                
+                <!-- Painel de controlos de quantidade (+, -, lixeira) -->
                 <div class="cart-item-controls">
                     <button class="qty-btn" onclick="changeItemQuantity(${item.id}, -1)">-</button>
                     <span class="qty-display">${item.quantity}</span>
@@ -73,14 +87,17 @@ function renderCartItems() {
     container.appendChild(row);
   });
 
+  // Recalcula automaticamente os subtotais e as reduções de cashback
   if (window.updateModalTotals) window.updateModalTotals();
 }
 
+// Fecha visualmente o banner flutuante de autorização de cookies da LGPD
 function hideLGPDBanner() {
   const banner = document.getElementById("lgpd-banner");
   if (banner) banner.style.display = "none";
 }
 
+// Sincroniza e atualiza o saldo de pontos na barra superior e no menu de fidelidade
 function updatePointsUI(points) {
   const headerPoints = document.querySelector(".app-header .points");
   if (headerPoints) headerPoints.innerText = `${points} pts`;
@@ -89,6 +106,7 @@ function updatePointsUI(points) {
   if (fidelityHighlight) fidelityHighlight.innerText = `${points} Pontos`;
 }
 
+// Avança ou recua os marcadores gráficos da timeline do fluxo de preparação da cozinha
 function updateTrackingUI(stepIndex) {
   const totalSteps = 5;
   for (let i = 0; i < totalSteps; i++) {
