@@ -3,7 +3,6 @@ window.orderFinalTotal = 0;
 window.currentUser = null;
 window.currentUnit = null;
 
-// Utilitário global
 window.updateModalTotals = function () {
   const subtotalEl = document.getElementById("modal-subtotal");
   const discountEl = document.getElementById("modal-discount-value");
@@ -37,7 +36,6 @@ window.updateModalTotals = function () {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  // --- AUTENTICAÇÃO E SESSÃO ---
   function checkAuthStatus() {
     const savedUser = localStorage.getItem("raizes_user");
     const btnLogin = document.getElementById("btn-login");
@@ -63,11 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Modal de Login
   const loginModal = document.getElementById("login-modal");
   document.getElementById("btn-login").addEventListener("click", () => {
     if (!window.currentUser) loginModal.style.display = "flex";
-    // Se já estiver logado, poderia abrir um menu de perfil.
   });
 
   document
@@ -87,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Inicialização
   checkAuthStatus();
   loadCart();
   updateCartUI(cart.total);
@@ -105,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- FILTRAGEM POR UNIDADE (CARDÁPIO DINÂMICO) ---
   function getMenuForCurrentUnit() {
     if (!window.currentUnit) return mockMenu;
     return mockMenu.filter(
@@ -113,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // Category Filter (Aplica o filtro da categoria EM CIMA do filtro da unidade)
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach(btn => {
     btn.addEventListener("click", e => {
@@ -126,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (category === "todos") {
         renderMenu(unitMenu);
       } else if (category === "promocoes") {
-        // NOVO: Filtra apenas os itens com promo: true
         const filtered = unitMenu.filter(item => item.promo === true);
         renderMenu(filtered);
       } else {
@@ -136,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- NAVEGAÇÃO SPA ---
   const viewHero = document.getElementById("view-hero");
   const appContainer = document.getElementById("app-container");
   const viewMenu = document.getElementById("view-menu");
@@ -171,7 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // INICIAR APP E CAPTURAR UNIDADE
   document.getElementById("btn-start-app").addEventListener("click", () => {
     const unitSelector = document.getElementById("unit-select");
     if (!unitSelector.value) {
@@ -185,10 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const unitName = unitSelector.options[unitSelector.selectedIndex].text;
     document.getElementById("header-unit-display").innerText = unitName;
 
-    // Puxa o cardápio daquela unidade específica
     renderMenu(getMenuForCurrentUnit());
 
-    // Se não estiver logado, obriga a logar para iniciar
     if (!window.currentUser) {
       loginModal.style.display = "flex";
     } else {
@@ -196,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Libera a tela quando o usuário faz login pela primeira vez no modal obrigatório
   document.getElementById("btn-auth-submit").addEventListener("click", () => {
     if (window.currentUnit && window.currentUser) {
       switchView("menu");
@@ -211,7 +198,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", () => switchView("hero"));
   btnBack.addEventListener("click", () => switchView("menu"));
 
-  // --- MODAIS DO CARRINHO E CHECKOUT ---
   const cartBtn = document.getElementById("cart-button");
   const cartModal = document.getElementById("cart-modal");
   const checkoutModal = document.getElementById("checkout-modal");

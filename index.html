@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raízes do Nordeste</title>
+    <link rel="shortcut icon" href="assets/icons/favicon.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raízes do Nordeste</title>
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/components.css" />
@@ -19,7 +20,9 @@
         Usamos cookies e dados para melhorar sua experiência.
         <a href="#" id="link-lgpd-details">Saiba mais</a>
       </p>
-      <button id="accept-lgpd" class="btn-primary">Concordar e Fechar</button>
+      <button id="accept-lgpd" class="btn-primary btn-large">
+        Concordar e Fechar
+      </button>
     </div>
 
     <div id="view-hero" class="hero-section active">
@@ -36,7 +39,7 @@
           <select id="unit-select" class="form-control">
             <option value="">Selecione uma loja...</option>
             <option value="centro">Centro (Matriz)</option>
-            <option value="shopping">Shopping Iguatemi</option>
+            <option value="shopping">Shopping</option>
           </select>
         </div>
 
@@ -57,7 +60,7 @@
           <div class="header-titles">
             <h1>Raízes do Nordeste</h1>
             <span id="header-unit-display" class="unit-badge">
-              Loja Selecionada
+              Selecionar Loja
             </span>
           </div>
         </div>
@@ -81,19 +84,17 @@
             </button>
             <button
               class="category-btn"
-              style="color: #ea1d2c; border-color: #ea1d2c; font-weight: 600"
+              style="border-color: #ee4411"
               data-category="promocoes">
               🔥 Promoções
             </button>
-            <button class="category-btn" data-category="lanches">
-              Lanches
-            </button>
-            <button class="category-btn" data-category="bebidas">
-              Bebidas
-            </button>
-            <button class="category-btn" data-category="combos">Combos</button>
+            <button class="category-btn" data-category="pratos">Pratos</button>
             <button class="category-btn" data-category="porcoes">
               Porções
+            </button>
+            <button class="category-btn" data-category="combos">Combos</button>
+            <button class="category-btn" data-category="bebidas">
+              Bebidas
             </button>
             <button class="category-btn" data-category="sobremesas">
               Sobremesas
