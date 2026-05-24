@@ -1,3 +1,6 @@
+/* LAYOUT.CSS - Estrutura de Ecrãs, Posicionamento e Responsividade */
+
+/* Seção Hero */
 .hero-section {
   display: none;
   min-height: 100vh;
@@ -35,6 +38,7 @@
   opacity: 0.85;
 }
 
+/* Configuração de botões */
 .btn-large {
   padding: 15px 30px;
   font-size: 1.25rem;
@@ -45,10 +49,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+/* Estrutura do Container do Aplicativo Principal */
 #app-container {
   padding-bottom: 90px;
 }
 
+/* Cabeçalho Fixo Superior */
 .app-header {
   background-color: var(--card-bg);
   padding: 15px 20px;
@@ -74,12 +80,14 @@
   gap: 8px;
 }
 
+/* Container de Alinhamento Centralizado do Cardápio */
 .menu-container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Barra Horizontal de Categorias */
 .categories {
   display: flex;
   padding-bottom: 10px;
@@ -87,10 +95,12 @@
   overflow-x: auto;
 }
 
+/* Esconde a barra de scroll padrão do navegador para estética limpa */
 .categories::-webkit-scrollbar {
   display: none;
 }
 
+/* Menu de Produtos - Mobile First */
 .product-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -98,6 +108,7 @@
   margin-top: 20px;
 }
 
+/* Media Query: Tablets e Ecrãs Médios */
 @media (min-width: 768px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -107,6 +118,7 @@
   }
 }
 
+/* Media Query: Totem e Computadores */
 @media (min-width: 1024px) {
   .product-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -116,6 +128,7 @@
   }
 }
 
+/* Controladores de Visibilidade Das Seções */
 .view-section {
   display: none;
   animation: fadeIn 300ms ease-in;
@@ -125,6 +138,7 @@
   display: block;
 }
 
+/* Keyframes da animação suave de transição de ecrã */
 @keyframes fadeIn {
   from {
     opacity: 0;

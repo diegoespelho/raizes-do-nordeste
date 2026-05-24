@@ -1,5 +1,7 @@
+/* GLOBAL.CSS - Configurações de Base e Variáveis Globais */
+
 :root {
-  --primary-color: #ee4411;
+  --primary-color: #ee4411; 
   --bg-color: #f7f7f7;
   --card-bg: #ffffff;
   --title-main: #1f1f1f;
@@ -11,6 +13,6 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; 
   font-family: "Poppins", sans-serif;
 }

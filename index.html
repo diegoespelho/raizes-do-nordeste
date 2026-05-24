@@ -1,20 +1,29 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
+    <!-- Configurações básicas de codificação e responsividade -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raízes do Nordeste</title>
-    <link rel="shortcut icon" href="assets/icons/favicon.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="assets/icons/favicon.png"
+      type="image/x-icon" />
+
+    <!-- Conexões antecipadas para carregamento otimizado de fontes do Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
+
+    <!-- Vinculação das folhas de estilo modulares (CSS) -->
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/components.css" />
   </head>
   <body>
+    <!-- Banner de Aviso e Consentimento da LGPD -->
     <div id="lgpd-banner" class="lgpd-container">
       <p>
         Usamos cookies e dados para melhorar sua experiência.
@@ -25,6 +34,8 @@
       </button>
     </div>
 
+    <!-- Tela Inicial -->
+    <!-- Exibe a logo, slogan e seletor de unidade -->
     <div id="view-hero" class="hero-section active">
       <div class="hero-content">
         <img src="assets/icons/hot-meal.svg" />
@@ -34,6 +45,7 @@
           entrega rápida e de qualidade.
         </p>
 
+        <!-- Seletor Dinâmico de Unidades -->
         <div class="unit-selector-box">
           <label for="unit-select">Escolha a unidade mais próxima:</label>
           <select id="unit-select" class="form-control">
@@ -49,7 +61,10 @@
       </div>
     </div>
 
+    <!-- Container Principal da Aplicação -->
+    <!-- Desbloqueado após a escolha da unidade -->
     <div id="app-container" style="display: none">
+      <!-- Cabeçalho de Navegação e Perfil -->
       <header class="app-header">
         <button id="btn-back" class="back-btn" style="display: none">
           <img src="assets/icons/arrow-left.svg" width="40px" />
@@ -76,7 +91,9 @@
         </div>
       </header>
 
+      <!-- Conteúdo Principal -->
       <main class="menu-container">
+        <!-- SEÇÃO 1: Vitrine de Produtos e Filtro de Categorias -->
         <div id="view-menu" class="view-section">
           <section class="categories">
             <button class="category-btn active" data-category="todos">
@@ -100,9 +117,12 @@
               Sobremesas
             </button>
           </section>
+
+          <!-- Elemento onde os cards de produtos serão injetados via JS -->
           <section id="product-list" class="product-grid"></section>
         </div>
 
+        <!-- SEÇÃO 2: Extrato do Programa de Fidelidade (Cashback) -->
         <div
           id="view-fidelity"
           class="view-section fidelity-container"
@@ -127,6 +147,7 @@
           </div>
         </div>
 
+        <!-- SEÇÃO 3: Página Informativa da LGPD -->
         <div
           id="view-lgpd"
           class="view-section lgpd-page-container"
@@ -191,12 +212,15 @@
         </div>
       </main>
 
+      <!-- Botão Flutuante do Carrinho Ativo -->
       <button id="cart-button" class="floating-cart">
         <span class="cart-text">🛒 Ver Carrinho</span>
         <span id="cart-total">R$ 0,00</span>
       </button>
     </div>
 
+    <!-- Sessão de Modais -->
+    <!-- MODAL A: Autenticação e Login de Usuário -->
     <div id="login-modal" class="modal-overlay" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
@@ -226,6 +250,7 @@
       </div>
     </div>
 
+    <!-- MODAL B: Resumo do Carrinho de Compras -->
     <div id="cart-modal" class="modal-overlay" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
@@ -238,8 +263,8 @@
             <span>Subtotal</span><span id="modal-subtotal">R$ 0,00</span>
           </div>
           <div class="summary-line fidelity-discount">
-            <span>Desconto fidelidade utilizado</span
-            ><span id="modal-discount-value">- R$ 0,00</span>
+            <span>Desconto fidelidade utilizado</span>
+            <span id="modal-discount-value">- R$ 0,00</span>
           </div>
           <div class="summary-line total">
             <span>Total à Pagar</span><span id="modal-total">R$ 0,00</span>
@@ -254,6 +279,7 @@
       </div>
     </div>
 
+    <!-- MODAL C: Dados de Entrega e Forma de Pagamento -->
     <div id="checkout-modal" class="modal-overlay" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
@@ -262,16 +288,16 @@
         </div>
         <div class="checkout-form">
           <div class="form-group">
-            <label>Nome Completo</label
-            ><input
+            <label>Nome Completo</label>
+            <input
               type="text"
               id="client-name"
               readonly
               style="background: #f0f0f0" />
           </div>
           <div class="form-group">
-            <label>Endereço de Entrega</label
-            ><input
+            <label>Endereço de Entrega</label>
+            <input
               type="text"
               id="client-address"
               placeholder="Rua, Número, Bairro" />
@@ -295,6 +321,7 @@
       </div>
     </div>
 
+    <!-- MODAL D: Linha do Tempo e Acompanhamento de Fila -->
     <div id="tracking-modal" class="modal-overlay" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
@@ -338,6 +365,7 @@
       </div>
     </div>
 
+    <!-- Scripts -->
     <script src="data/mock.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/ui.js"></script>

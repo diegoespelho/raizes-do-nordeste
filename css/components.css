@@ -1,3 +1,6 @@
+/* COMPONENTS.CSS - Elementos Modulares de Interface */
+
+/* Banner LGPD */
 .lgpd-container {
   width: 100%;
   display: flex;
@@ -17,6 +20,7 @@
   color: var(--primary-color);
 }
 
+/* Botões do Sistema */
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
@@ -43,6 +47,7 @@
   cursor: pointer;
 }
 
+/* Botões da barra de filtragem de categoria */
 .category-btn {
   background: transparent;
   border: 1px solid #ddd;
@@ -64,6 +69,7 @@
   border-color: var(--primary-color);
 }
 
+/* Vitrine de Produtos */
 .product-card {
   display: flex;
   align-items: stretch;
@@ -119,6 +125,7 @@
   align-items: center;
 }
 
+/* Botão circular "+" para adicionar item ao carrinho */
 .add-btn {
   width: 36px;
   height: 36px;
@@ -139,6 +146,7 @@
   color: white;
 }
 
+/* Páginas e Elementos Internos */
 .fidelity-container h2,
 .lgpd-page-container h2 {
   margin-bottom: 20px;
@@ -162,6 +170,7 @@
   font-size: 1.5rem;
 }
 
+/* Caixa com a regra fixa de benefícios */
 .reward-rule-box {
   display: flex;
   align-items: flex-start;
@@ -214,6 +223,7 @@
   line-height: 1.5;
 }
 
+/* Botão Flutuante do Carrinho */
 .floating-cart {
   position: fixed;
   max-width: 400px;
@@ -240,6 +250,7 @@
   transition: all 200ms ease-in;
 }
 
+/* Modais */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -266,6 +277,7 @@
   overflow-y: auto;
 }
 
+/* Ajustes de modais para ecrãs maiores (Centralizados estilo Pop-up) */
 @media (min-width: 768px) {
   .modal-overlay {
     align-items: center;
@@ -306,6 +318,7 @@
   cursor: pointer;
 }
 
+/* Linhas internas do Carrinho de Compras */
 .cart-items {
   flex: 1;
   margin-bottom: 20px;
@@ -348,6 +361,7 @@
   gap: 8px;
 }
 
+/* Botões "+" e "-" do carrinho */
 .qty-btn {
   width: 20px;
   height: 20px;
@@ -386,6 +400,7 @@
   cursor: pointer;
 }
 
+/* Painel de Resumo de Valores */
 .cart-summary {
   background: #f9f9f9;
   padding: 15px;
@@ -412,6 +427,7 @@
   padding-top: 10px;
 }
 
+/* Formulários */
 .checkout-form {
   margin-bottom: 20px;
 }
@@ -458,6 +474,7 @@
   font-weight: 600;
 }
 
+/* Tracking e Fila */
 .tracking-container {
   padding: 10px 0;
 }
@@ -478,6 +495,7 @@
   padding-left: 10px;
 }
 
+/* Linha vertical que interliga os passos do rastreamento */
 .tracking-timeline::before {
   content: "";
   position: absolute;
@@ -534,6 +552,7 @@
   font-weight: 600;
 }
 
+/* Seletor de Unidade */
 .unit-selector-box {
   background: rgba(255, 255, 255, 0.2);
   padding: 15px;
@@ -551,7 +570,7 @@
 
 .form-control {
   width: 100%;
-  color: #333; 
+  color: #333;
   border-radius: var(--radius);
   border: none;
   font-size: 0.875rem;
